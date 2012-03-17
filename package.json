@@ -3,6 +3,12 @@
 , "description": "express-csv provides response csv easily to express."
 , "version": "0.0.2"
 , "author": "Seiya Konno <nulltask@gmail.com>"
+, "devDependencies": {
+    "mocha": "*"
+  , "should": "*"
+  , "superagent": "*"
+  , "express": "2"
+  }
 , "keywords": ["express", "csv"]
 , "repository": "git@github.com/express-csv.git"
 , "main": "index"
