@@ -10,7 +10,7 @@
   , "express": "2"
   }
 , "keywords": ["express", "csv"]
-, "repository": "git@github.com/express-csv.git"
+, "repository": "git://github.com/nulltask/express-csv.git"
 , "main": "index"
 , "engines": {
     "node": "0.6"
