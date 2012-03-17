@@ -1,0 +1,12 @@
+{
+  "name": "express-csv"
+, "description": "express-csv provides response csv easily to express."
+, "version": "0.0.1"
+, "author": "Seiya Konno <nulltask@gmail.com>"
+, "keywords": ["express", "csv"]
+, "repository": "git@github.com/express-csv.git"
+, "main": "index"
+, "engines": {
+    "node": "0.6"
+  }
+}
