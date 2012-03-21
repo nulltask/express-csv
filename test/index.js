@@ -5,7 +5,7 @@ var express = require('express')
 
 app.get('/test/1', function(req, res) {
   res.csv([
-  , ['a', 'b', 'c']
+    ['a', 'b', 'c']
   , ['d', 'e', 'f']
   ]);
 });
