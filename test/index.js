@@ -20,12 +20,18 @@ describe('express-csv', function() {
   it('should expose .separator', function() {
     csv.separator.should.be.a('string');
   });
+
+  it('should expose .preventCast', function() {
+    csv.preventCast.should.be.a('boolean');
+  });
   
   it('should extend http.ServerResponse.prototype.csv', function() {
     require('http').ServerResponse.prototype.csv.should.be.a('function');
   });
+});
 
-  it('should return csv', function(done) {
+describe('res.csv()', function() {
+  it('should response csv', function(done) {
     request 
       .get('http://127.0.0.1:8383/test/1')
       .end(function(res) {
@@ -34,7 +40,7 @@ describe('express-csv', function() {
       });
   });
 
-  it('should return tsv', function(done) {
+  it('should response tsv', function(done) {
     var prevSeparator = csv.separator;
     csv.separator = '\t';
     request
@@ -42,6 +48,18 @@ describe('express-csv', function() {
       .end(function(res) {
         csv.separator = prevSeparator;
         res.text.should.equal('"a"\t"b"\t"c"\r\n"d"\t"e"\t"f"\r\n');
+        done();
+      });
+  });
+
+  it('should response casted csv', function(done) {
+    var prevSetting = csv.preventCast;
+    csv.preventCast = true;
+    request
+      .get('http://127.0.0.1:8383/test/1')
+      .end(function(res) {
+        csv.preventCast = prevSetting;
+        res.text.should.equal('"="a"","="b"","="c""\r\n"="d"","="e"","="f""\r\n');
         done();
       });
   });
