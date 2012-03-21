@@ -21,17 +21,18 @@ app.get('/', function(req, res) {
 app.listen(8383);
 
 function benchmark(time) {
-  var now = new Date();
-
-  for (var i = 0, len = time; i < len; ++i) {
-    request
-      .get('http://127.0.0.1:8383/')
-      .end(function() {
+  var url = 'http://127.0.0.1:8383/'
+    , label = 'benchmark - ' + time + 'times'
+    , fn = function() {
         --time || !function() {
-          console.log('- result: %dms elapsed.', new Date() - now);
+          console.timeEnd(label);
           process.exit(0);
         }();
-      });
+      };
+
+  console.time(label);
+  for (var i = 0, len = time; i < len; ++i) {
+    request(url).end(fn);
   }
 }
 
