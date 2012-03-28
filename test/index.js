@@ -37,6 +37,10 @@ describe('express-csv', function() {
     csv.preventCast.should.be.a('boolean');
   });
   
+  it('should expose .ignoreNullOrUndefined', function() {
+    csv.ignoreNullOrUndefined.should.be.a('boolean');
+  });
+
   it('should extend http.ServerResponse.prototype.csv', function() {
     require('http').ServerResponse.prototype.csv.should.be.a('function');
   });
@@ -52,7 +56,7 @@ describe('res.csv()', function() {
       });
   });
 
-  it('should response csv includes null', function(done) {
+  it('should response csv includes ignored null', function(done) {
     request
       .get('http://127.0.0.1:8383/test/2')
       .end(function(res) {
@@ -61,11 +65,35 @@ describe('res.csv()', function() {
       });
   });
 
-  it('should response csv includes undefined', function(done) {
+  it('should response csv includes ignored undefined', function(done) {
     request
       .get('http://127.0.0.1:8383/test/3')
       .end(function(res) {
         res.text.should.equal('"a","b",\r\n');
+        done();
+      });
+  });
+
+  it('should response csv includes null', function(done) {
+    var prevOption = csv.ignoreNullOrUndefined;
+    csv.ignoreNullOrUndefined = false;
+    request
+      .get('http://127.0.0.1:8383/test/2')
+      .end(function(res) {
+        csv.ignoreNullOrUndefined = prevOption;
+        res.text.should.equal('"a","b","null"\r\n');
+        done();
+      });
+  });
+
+  it('should response csv includes undefined', function(done) {
+    var prevOption = csv.ignoreNullOrUndefined;
+    csv.ignoreNullOrUndefined = false;
+    request
+      .get('http://127.0.0.1:8383/test/3')
+      .end(function(res) {
+        csv.ignoreNullOrUndefined = prevOption;
+        res.text.should.equal('"a","b","undefined"\r\n');
         done();
       });
   });
