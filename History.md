@@ -1,4 +1,12 @@
 
+0.2.1 / 2012-03-28 
+==================
+
+  * Adding clause setting undefined columns to an empty string. [mblackshaw]
+  * Added `Makefile`.
+  * Added test.
+  * Added benchmark.
+
 0.2.0 / 2012-03-21 
 ==================
 
