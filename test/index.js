@@ -10,6 +10,18 @@ app.get('/test/1', function(req, res) {
   ]);
 });
 
+app.get('/test/2', function(req, res) {
+  res.csv([
+    [ 'a', 'b', null ]
+  ]);
+});
+
+app.get('/test/3', function(req, res) {
+  res.csv([
+    [ 'a', 'b', undefined ]
+  ]);
+});
+
 app.listen(8383);
 
 describe('express-csv', function() {
@@ -40,6 +52,24 @@ describe('res.csv()', function() {
       });
   });
 
+  it('should response csv includes null', function(done) {
+    request
+      .get('http://127.0.0.1:8383/test/2')
+      .end(function(res) {
+        res.text.should.equal('"a","b",\r\n');
+        done();
+      });
+  });
+
+  it('should response csv includes undefined', function(done) {
+    request
+      .get('http://127.0.0.1:8383/test/3')
+      .end(function(res) {
+        res.text.should.equal('"a","b",\r\n');
+        done();
+      });
+  });
+
   it('should response tsv', function(done) {
     var prevSeparator = csv.separator;
     csv.separator = '\t';
@@ -52,7 +82,7 @@ describe('res.csv()', function() {
       });
   });
 
-  it('should response casted csv', function(done) {
+  it('should response quoted csv', function(done) {
     var prevSetting = csv.preventCast;
     csv.preventCast = true;
     request
