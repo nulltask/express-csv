@@ -1,4 +1,10 @@
 
+0.3.0 / 2012-03-28 
+==================
+
+  * Added option `ignoreNullOrUndefined`.
+  * Added test.
+
 0.2.1 / 2012-03-28 
 ==================
 
