@@ -56,6 +56,15 @@ describe('res.csv()', function() {
       });
   });
 
+  it('should response valid content-type', function(done) {
+    request
+      .get('http://127.0.0.1:8383/test/1')
+      .end(function(res) {
+        res.headers['content-type'].should.equal('text/csv; charset=utf-8');
+        done();
+      });
+  });
+
   it('should response csv includes ignored null', function(done) {
     request
       .get('http://127.0.0.1:8383/test/2')
