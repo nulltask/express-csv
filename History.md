@@ -1,4 +1,9 @@
 
+0.3.1 / 2012-04-20 
+==================
+
+  * Fixed broken csv output when use `preventCast` option.
+
 0.3.0 / 2012-03-28 
 ==================
 
