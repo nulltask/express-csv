@@ -126,7 +126,7 @@ describe('res.csv()', function() {
       .get('http://127.0.0.1:8383/test/1')
       .end(function(res) {
         csv.preventCast = prevSetting;
-        res.text.should.equal('"="a"","="b"","="c""\r\n"="d"","="e"","="f""\r\n');
+        res.text.should.equal('="a",="b",="c"\r\n="d",="e",="f"\r\n');
         done();
       });
   });
