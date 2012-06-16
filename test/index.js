@@ -41,8 +41,14 @@ describe('express-csv', function() {
     csv.ignoreNullOrUndefined.should.be.a('boolean');
   });
 
-  it('should extend http.ServerResponse.prototype.csv', function() {
-    require('http').ServerResponse.prototype.csv.should.be.a('function');
+  it('should extend res.csv', function() {
+    if (express.version.match(/^2\.[0-9]+\.[0-9]+$/)) {
+      // express 2.x
+      require('http').ServerResponse.prototype.csv.should.be.a('function');
+    } else {
+      // express 3.x
+      require('express').response.csv.should.be.a('function');
+    }
   });
 });
 
