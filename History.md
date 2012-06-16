@@ -1,4 +1,9 @@
 
+0.4.0 / 2012-06-17 
+==================
+
+  * Avoid extending `http.ServerResponse.prototype` with Express 3.x
+
 0.3.1 / 2012-04-20 
 ==================
 
