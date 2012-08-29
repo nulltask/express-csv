@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/nulltask/express-csv.png)](http://travis-ci.org/nulltask/express-csv)
 # Express CSV
 
 ```
