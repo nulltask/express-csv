@@ -61,6 +61,14 @@ $ curl --verbose http://127.0.0.1:3000/
 * Closing connection #0
 ```
 
+Alternatively, you can also pass an array of objects to be serialized, in which case the object's
+properties will be iterated over.  E.g.:
+
+```js
+res.csv([ { name: "joe", id: 1 }]
+//=> "joe", 1
+```
+
 ## License
 
     The MIT License

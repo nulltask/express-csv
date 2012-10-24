@@ -22,6 +22,13 @@ app.get('/test/3', function(req, res) {
   ]);
 });
 
+app.get('/test/objectArray', function(req, res) {
+  res.csv([
+    { stringProp: "a", nullProp: null, undefinedProp: undefined },
+    { stringProp: "b", nullProp: null, undefinedProp: undefined }
+  ]);
+});
+
 app.listen(8383);
 
 describe('express-csv', function() {
@@ -53,6 +60,67 @@ describe('express-csv', function() {
 });
 
 describe('res.csv()', function() {
+
+  describe('when given an array of objects', function() {
+    describe('and ignoreNullOrUndefined is true', function() {
+      var rows;
+
+      beforeEach(function(done) {
+        csv.ignoreNullOrUndefined = true;
+        request
+          .get('http://127.0.0.1:8383/test/objectArray')
+          .end(function(res) {
+            rows = res.text.split("\r\n");
+            done();
+          });
+      });
+
+      it('should include values that exist', function() {
+        rows[0].split(",")[0].should.equal('"a"');
+        rows[1].split(",")[0].should.equal('"b"');
+      });
+
+      it('should exclude null', function() {
+        rows[0].split(",")[1].should.equal('');
+        rows[0].split(",")[2].should.equal('');
+      });
+
+      it('should exclude undefined', function() {
+        rows[0].split(",")[2].should.equal('');
+        rows[1].split(",")[2].should.equal('');
+      });
+    });
+
+    describe('and ignoreNullOrUndefined is false', function() {
+      var rows;
+
+      beforeEach(function(done) {
+        csv.ignoreNullOrUndefined = false;
+        request
+          .get('http://127.0.0.1:8383/test/objectArray')
+          .end(function(res) {
+            rows = res.text.split("\r\n");
+            done();
+          });
+      });
+
+      it('should include values that exist', function() {
+        rows[0].split(",")[0].should.equal('"a"');
+        rows[1].split(",")[0].should.equal('"b"');
+      });
+
+      it('should include null', function() {
+        rows[0].split(",")[1].should.equal('"null"');
+        rows[1].split(",")[1].should.equal('"null"');
+      });
+
+      it('should include undefined', function() {
+        rows[0].split(",")[2].should.equal('"undefined"');
+        rows[1].split(",")[2].should.equal('"undefined"');
+      });
+    });
+  });
+
   it('should response csv', function(done) {
     request 
       .get('http://127.0.0.1:8383/test/1')
