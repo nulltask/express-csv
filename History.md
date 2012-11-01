@@ -1,4 +1,10 @@
 
+0.5.0 / 2012-11-01 
+==================
+
+  * Support serializing an array of objects
+  * Added travis.yml
+
 0.4.1 / 2012-06-26 
 ==================
 
