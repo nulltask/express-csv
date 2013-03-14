@@ -1,7 +1,7 @@
 {
   "name": "express-csv"
 , "description": "express-csv provides response csv easily to express."
-, "version": "0.5.0"
+, "version": "0.6.0"
 , "author": "Seiya Konno <nulltask@gmail.com>"
 , "contributors": [
     { "name": "Matthew Blackshaw", "web": "http://mattblackshaw.com" }
