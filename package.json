@@ -17,7 +17,7 @@
 , "repository": "git://github.com/nulltask/express-csv.git"
 , "main": "index"
 , "engines": {
-    "node": "0.6 || 0.8"
+    "node": "0.6 || 0.8 || 0.10"
   }
 , "scripts": {
     "test": "mocha"
