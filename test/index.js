@@ -104,7 +104,7 @@ describe('csv.generate()', function() {
 
         afterEach(function() {
           csv.ignoreNullOrUndefined = true;
-        })
+        });
 
         it('should include values that exist', function() {
           rows[0].split(",")[0].should.equal('"a"');
@@ -128,22 +128,22 @@ describe('csv.generate()', function() {
     csv.generate(test1Data).should.equal('"a","b","c"\r\n"d","e","f"\r\n');
   });
 
-  it('should generated csv includes ignored null', function() {
+  it('should generate a csv that ignores null', function() {
     csv.generate(test2Data).should.equal('"a","b",\r\n');
   });
 
-  it('should generated csv includes ignored undefined', function() {
+  it('should generate a csv that ignores undefined', function() {
     csv.generate(test3Data).should.equal('"a","b",\r\n');
   });
 
-  it('should generated csv includes null', function() {
+  it('should generate a csv that include null', function() {
     var prevOption = csv.ignoreNullOrUndefined;
     csv.ignoreNullOrUndefined = false;    
     csv.generate(test2Data).should.equal('"a","b","null"\r\n');
     csv.ignoreNullOrUndefined = prevOption;
   });
 
-  it('should generated csv includes undefined', function() {
+  it('should generate a csv that includes undefined', function() {
     var prevOption = csv.ignoreNullOrUndefined;
     csv.ignoreNullOrUndefined = false;
     
@@ -151,14 +151,14 @@ describe('csv.generate()', function() {
     csv.ignoreNullOrUndefined = prevOption;
   });
 
-  it('should generated tsv', function() {
+  it('should generate a tsv', function() {
     var prevSeparator = csv.separator;
     csv.separator = '\t';
     csv.generate(test1Data).should.equal('"a"\t"b"\t"c"\r\n"d"\t"e"\t"f"\r\n');
     csv.separator = prevSeparator;
   });
 
-  it('should generated quoted csv', function() {
+  it('should generate a quoted csv', function() {
     var prevSetting = csv.preventCast;
     csv.preventCast = true;
     csv.generate(test1Data).should.equal('="a",="b",="c"\r\n="d",="e",="f"\r\n');
@@ -248,7 +248,6 @@ describe('res.csv()', function() {
   });
 
   it('should response csv includes ignored null', function(done) {
-    console.log(csv);
     request
       .get('http://127.0.0.1:8383/test/2')
       .end(function(res) {
