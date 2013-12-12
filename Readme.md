@@ -69,6 +69,16 @@ res.csv([ { name: "joe", id: 1 }]
 //=> "joe", 1
 ```
 
+csv also expose a generate() function that generate a csv string from an array, E.g:
+
+```js
+var csvString = csv.generate([
+    ["a", "b", "c"]
+  , ["d", "e", "f"]
+  ]);
+// => csvString = '"a", "b", "c"\n"d", "e", "f"'
+```
+
 ## License
 
     The MIT License
