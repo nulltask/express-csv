@@ -24,8 +24,9 @@ Example:
 
 ```js
 var express = require('express')
-  , csv = require('express-csv')
   , app = module.exports = express.createServer();
+
+require('express-csv')
 
 app.get('/', function(req, res) {
   res.csv([
