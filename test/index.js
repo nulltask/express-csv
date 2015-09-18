@@ -1,7 +1,7 @@
-var express = require('express')
-  , request = require('superagent')
-  , csv = require('../')
-  , app = express.createServer();
+var express = require('express'),
+    request = require('superagent'),
+    csv = require('../'),
+    app = express();
 
 app.get('/test/1', function(req, res) {
   res.csv([
@@ -31,31 +31,22 @@ app.get('/test/objectArray', function(req, res) {
 
 app.listen(8383);
 
-describe('express-csv', function() {
-  it('should expose .version', function() {
-    csv.version.should.be.match(/[0-9]+\.[0-9]+\.[0-9]+/);
-  });
+describe('csv-express', function() {
 
   it('should expose .separator', function() {
-    csv.separator.should.be.a('string');
+    csv.separator.should.be.type('string');
   });
 
   it('should expose .preventCast', function() {
-    csv.preventCast.should.be.a('boolean');
+    csv.preventCast.should.be.type('boolean');
   });
-  
+
   it('should expose .ignoreNullOrUndefined', function() {
-    csv.ignoreNullOrUndefined.should.be.a('boolean');
+    csv.ignoreNullOrUndefined.should.be.type('boolean');
   });
 
   it('should extend res.csv', function() {
-    if (express.version.match(/^2\.[0-9]+\.[0-9]+$/)) {
-      // express 2.x
-      require('http').ServerResponse.prototype.csv.should.be.a('function');
-    } else {
-      // express 3.x
-      require('express').response.csv.should.be.a('function');
-    }
+    require('express').response.csv.should.be.type('function');
   });
 });
 
@@ -68,8 +59,8 @@ describe('res.csv()', function() {
       beforeEach(function(done) {
         csv.ignoreNullOrUndefined = true;
         request
-          .get('http://127.0.0.1:8383/test/objectArray')
-          .end(function(res) {
+          .get('http://localhost:8383/test/objectArray')
+          .end(function(error, res) {
             rows = res.text.split("\r\n");
             done();
           });
@@ -98,7 +89,7 @@ describe('res.csv()', function() {
         csv.ignoreNullOrUndefined = false;
         request
           .get('http://127.0.0.1:8383/test/objectArray')
-          .end(function(res) {
+          .end(function(error, res) {
             rows = res.text.split("\r\n");
             done();
           });
@@ -122,9 +113,9 @@ describe('res.csv()', function() {
   });
 
   it('should response csv', function(done) {
-    request 
+    request
       .get('http://127.0.0.1:8383/test/1')
-      .end(function(res) {
+      .end(function(error, res) {
         res.text.should.equal('"a","b","c"\r\n"d","e","f"\r\n');
         done();
       });
@@ -133,7 +124,7 @@ describe('res.csv()', function() {
   it('should response valid content-type', function(done) {
     request
       .get('http://127.0.0.1:8383/test/1')
-      .end(function(res) {
+      .end(function(error, res) {
         res.headers['content-type'].should.match(/^text\/csv/);
         done();
       });
@@ -142,7 +133,7 @@ describe('res.csv()', function() {
   it('should response csv includes ignored null', function(done) {
     request
       .get('http://127.0.0.1:8383/test/2')
-      .end(function(res) {
+      .end(function(error, res) {
         res.text.should.equal('"a","b",\r\n');
         done();
       });
@@ -151,7 +142,7 @@ describe('res.csv()', function() {
   it('should response csv includes ignored undefined', function(done) {
     request
       .get('http://127.0.0.1:8383/test/3')
-      .end(function(res) {
+      .end(function(error, res) {
         res.text.should.equal('"a","b",\r\n');
         done();
       });
@@ -162,7 +153,7 @@ describe('res.csv()', function() {
     csv.ignoreNullOrUndefined = false;
     request
       .get('http://127.0.0.1:8383/test/2')
-      .end(function(res) {
+      .end(function(error, res) {
         csv.ignoreNullOrUndefined = prevOption;
         res.text.should.equal('"a","b","null"\r\n');
         done();
@@ -174,7 +165,7 @@ describe('res.csv()', function() {
     csv.ignoreNullOrUndefined = false;
     request
       .get('http://127.0.0.1:8383/test/3')
-      .end(function(res) {
+      .end(function(error, res) {
         csv.ignoreNullOrUndefined = prevOption;
         res.text.should.equal('"a","b","undefined"\r\n');
         done();
@@ -186,7 +177,7 @@ describe('res.csv()', function() {
     csv.separator = '\t';
     request
       .get('http://127.0.0.1:8383/test/1')
-      .end(function(res) {
+      .end(function(error, res) {
         csv.separator = prevSeparator;
         res.text.should.equal('"a"\t"b"\t"c"\r\n"d"\t"e"\t"f"\r\n');
         done();
@@ -198,7 +189,7 @@ describe('res.csv()', function() {
     csv.preventCast = true;
     request
       .get('http://127.0.0.1:8383/test/1')
-      .end(function(res) {
+      .end(function(error, res) {
         csv.preventCast = prevSetting;
         res.text.should.equal('="a",="b",="c"\r\n="d",="e",="f"\r\n');
         done();

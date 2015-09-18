@@ -1,26 +1,40 @@
 {
-  "name": "express-csv"
-, "description": "express-csv provides response csv easily to express."
-, "version": "0.6.0"
-, "author": "Seiya Konno <nulltask@gmail.com>"
-, "contributors": [
-    { "name": "Matthew Blackshaw", "web": "http://mattblackshaw.com" }
-  , { "name": "Craig McDonald", "web": "http://thrackle.com" }
-  ]
-, "devDependencies": {
-    "mocha": "*"
-  , "should": "*"
-  , "superagent": "*"
-  , "express": "2"
-  }
-, "keywords": ["express", "csv"]
-, "repository": "git://github.com/nulltask/express-csv.git"
-, "main": "index"
-, "engines": {
-    "node": "0.6 || 0.8 || 0.10"
-  }
-, "scripts": {
-    "test": "mocha"
-  , "prepublish": "make test"
+  "name": "csv-express",
+  "description": "Adds a CSV response method to expressjs applications.",
+  "version": "1.0.0",
+  "author": "John J Czaplewski (forked from Seiya Konno)",
+  "contributors": [
+    {
+      "name": "Seiya Konno",
+      "web": "nulltask@gmail.com"
+    },
+    {
+      "name": "Matthew Blackshaw",
+      "web": "http://mattblackshaw.com"
+    },
+    {
+      "name": "Craig McDonald",
+      "web": "http://thrackle.com"
+    }
+  ],
+  "devDependencies": {
+    "express": "4.x",
+    "mocha": "^2.3.2",
+    "should": "^7.1.0",
+    "superagent": "^1.4.0"
+  },
+  "keywords": [
+    "express",
+    "expressjs",
+    "csv"
+  ],
+  "repository": "git://github.com/jczaplew/csv-express.git",
+  "main": "index.js",
+  "engines": {
+    "node": "0.6 || 0.8 || 0.10 || 0.12 || 4.x"
+  },
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "make test"
   }
 }
