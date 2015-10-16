@@ -29,6 +29,19 @@ app.get('/test/objectArray', function(req, res) {
   ]);
 });
 
+app.get('/test/cyrillic/utf8', function(req, res) {
+  res.csv([
+    ['Привет', 'мир']
+  ]);
+});
+
+app.get('/test/cyrillic/cp1251', function(req, res) {
+  res.charset = "cp-1251";
+  res.csv([
+    ['Привет', 'мир']
+  ]);
+});
+
 app.listen(8383);
 
 describe('csv-express', function() {
@@ -194,5 +207,26 @@ describe('res.csv()', function() {
         res.text.should.equal('="a",="b",="c"\r\n="d",="e",="f"\r\n');
         done();
       });
+  });
+
+  describe('when given cyrillyc data', function() {
+    it('should response with utf-8 text', function(done) {
+      request
+        .get('http://127.0.0.1:8383/test/cyrillic/utf8')
+        .end(function(error, res) {
+          res.text.should.equal('"Привет","мир"\r\n');
+          done();
+        });
+    });
+
+    it('should response with cp-1251 text', function(done) {
+      request
+        .get('http://127.0.0.1:8383/test/cyrillic/cp1251')
+        .end(function(error, res) {
+          var text = new Buffer([0x22, 0xcf, 0xf0, 0xe8, 0xe2, 0xe5, 0xf2, 0x22, 0x2c, 0x22, 0xcc, 0xe8, 0xf0, 0x22, 0x0d, 0x0a]);
+          res.text.should.equal(text.toString());
+          done();
+        });
+    });
   });
 });
