@@ -1,7 +1,7 @@
 {
   "name": "csv-express",
   "description": "Adds a CSV response method to expressjs applications.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "John J Czaplewski (forked from Seiya Konno)",
   "contributors": [
     {
@@ -15,6 +15,10 @@
     {
       "name": "Craig McDonald",
       "web": "http://thrackle.com"
+    },
+    {
+      "name": "Alexey Avramchik",
+      "web": "https://github.com/alexcrack"
     }
   ],
   "devDependencies": {
