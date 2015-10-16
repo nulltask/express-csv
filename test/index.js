@@ -65,66 +65,6 @@ describe('csv-express', function() {
 
 describe('res.csv()', function() {
 
-  describe('when given an array of objects', function() {
-    describe('and ignoreNullOrUndefined is true', function() {
-      var rows;
-
-      beforeEach(function(done) {
-        csv.ignoreNullOrUndefined = true;
-        request
-          .get('http://localhost:8383/test/objectArray')
-          .end(function(error, res) {
-            rows = res.text.split("\r\n");
-            done();
-          });
-      });
-
-      it('should include values that exist', function() {
-        rows[0].split(",")[0].should.equal('"a"');
-        rows[1].split(",")[0].should.equal('"b"');
-      });
-
-      it('should exclude null', function() {
-        rows[0].split(",")[1].should.equal('');
-        rows[0].split(",")[2].should.equal('');
-      });
-
-      it('should exclude undefined', function() {
-        rows[0].split(",")[2].should.equal('');
-        rows[1].split(",")[2].should.equal('');
-      });
-    });
-
-    describe('and ignoreNullOrUndefined is false', function() {
-      var rows;
-
-      beforeEach(function(done) {
-        csv.ignoreNullOrUndefined = false;
-        request
-          .get('http://127.0.0.1:8383/test/objectArray')
-          .end(function(error, res) {
-            rows = res.text.split("\r\n");
-            done();
-          });
-      });
-
-      it('should include values that exist', function() {
-        rows[0].split(",")[0].should.equal('"a"');
-        rows[1].split(",")[0].should.equal('"b"');
-      });
-
-      it('should include null', function() {
-        rows[0].split(",")[1].should.equal('"null"');
-        rows[1].split(",")[1].should.equal('"null"');
-      });
-
-      it('should include undefined', function() {
-        rows[0].split(",")[2].should.equal('"undefined"');
-        rows[1].split(",")[2].should.equal('"undefined"');
-      });
-    });
-  });
-
   it('should response csv', function(done) {
     request
       .get('http://127.0.0.1:8383/test/1')
@@ -208,25 +148,87 @@ describe('res.csv()', function() {
         done();
       });
   });
+});
 
-  describe('when given cyrillyc data', function() {
-    it('should response with utf-8 text', function(done) {
+
+describe('when given an array of objects', function() {
+  describe('and ignoreNullOrUndefined is true', function() {
+    var rows;
+
+    beforeEach(function(done) {
+      csv.ignoreNullOrUndefined = true;
       request
-        .get('http://127.0.0.1:8383/test/cyrillic/utf8')
+        .get('http://localhost:8383/test/objectArray')
         .end(function(error, res) {
-          res.text.should.equal('"Привет","мир"\r\n');
+          rows = res.text.split("\r\n");
           done();
         });
     });
 
-    it('should response with cp-1251 text', function(done) {
+    it('should include values that exist', function() {
+      rows[0].split(",")[0].should.equal('"a"');
+      rows[1].split(",")[0].should.equal('"b"');
+    });
+
+    it('should exclude null', function() {
+      rows[0].split(",")[1].should.equal('');
+      rows[0].split(",")[2].should.equal('');
+    });
+
+    it('should exclude undefined', function() {
+      rows[0].split(",")[2].should.equal('');
+      rows[1].split(",")[2].should.equal('');
+    });
+  });
+
+  describe('and ignoreNullOrUndefined is false', function() {
+    var rows;
+
+    beforeEach(function(done) {
+      csv.ignoreNullOrUndefined = false;
       request
-        .get('http://127.0.0.1:8383/test/cyrillic/cp1251')
+        .get('http://127.0.0.1:8383/test/objectArray')
         .end(function(error, res) {
-          var text = new Buffer([0x22, 0xcf, 0xf0, 0xe8, 0xe2, 0xe5, 0xf2, 0x22, 0x2c, 0x22, 0xcc, 0xe8, 0xf0, 0x22, 0x0d, 0x0a]);
-          res.text.should.equal(text.toString());
+          rows = res.text.split("\r\n");
           done();
         });
     });
+
+    it('should include values that exist', function() {
+      rows[0].split(",")[0].should.equal('"a"');
+      rows[1].split(",")[0].should.equal('"b"');
+    });
+
+    it('should include null', function() {
+      rows[0].split(",")[1].should.equal('"null"');
+      rows[1].split(",")[1].should.equal('"null"');
+    });
+
+    it('should include undefined', function() {
+      rows[0].split(",")[2].should.equal('"undefined"');
+      rows[1].split(",")[2].should.equal('"undefined"');
+    });
+  });
+});
+
+
+describe('when given cyrillyc data', function() {
+  it('should response with utf-8 text', function(done) {
+    request
+      .get('http://127.0.0.1:8383/test/cyrillic/utf8')
+      .end(function(error, res) {
+        res.text.should.equal('"Привет","мир"\r\n');
+        done();
+      });
+  });
+
+  it('should response with cp-1251 text', function(done) {
+    request
+      .get('http://127.0.0.1:8383/test/cyrillic/cp1251')
+      .end(function(error, res) {
+        var text = new Buffer([0x22, 0xcf, 0xf0, 0xe8, 0xe2, 0xe5, 0xf2, 0x22, 0x2c, 0x22, 0xcc, 0xe8, 0xf0, 0x22, 0x0d, 0x0a]);
+        res.text.should.equal(text.toString());
+        done();
+      });
   });
 });
